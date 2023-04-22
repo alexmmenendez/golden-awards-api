@@ -10,6 +10,6 @@ EXPOSE 8080
 
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/raspberry-api.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/golden-awards-api.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/raspberry-api.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/golden-awards-api.jar"]

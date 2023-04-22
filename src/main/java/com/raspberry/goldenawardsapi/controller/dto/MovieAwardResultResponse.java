@@ -4,8 +4,8 @@ import java.util.List;
 
 public class MovieAwardResultResponse {
 
-    private List<MovieAwardResponse> min;
-    private List<MovieAwardResponse> max;
+    private final List<MovieAwardResponse> min;
+    private final List<MovieAwardResponse> max;
 
     public MovieAwardResultResponse(List<MovieAwardResponse> min, List<MovieAwardResponse> max) {
         this.min = min;
