@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+        version="2.0">
+
+    <named-native-query name="MovieAward.getMetricsForMinInterval">
+        <query>
+            SELECT aw.producer AS "producer", aw."year" AS "previousWin", aw_next."year" AS "followingWin", (aw_next."year" - aw."year") AS "interval"
+            FROM MOVIE_AWARD aw
+            INNER JOIN MOVIE_AWARD aw_next ON aw_next.id != AW.id
+            AND aw_next."year" = aw."year"+1
+            AND aw_next.WINNER IS TRUE
+            AND aw_next.producer = aw.producer
+            WHERE aw.WINNER IS true;
+        </query>
+    </named-native-query>
+
+    <named-native-query name="MovieAward.getMetricsForMaxInterval">
+        <query>
+            <![CDATA[
+            SELECT aw.producer AS "producer", aw."year" AS "previousWin", aw_next."year" AS "followingWin", (aw_next."year" - aw."year") AS "interval"
+            FROM MOVIE_AWARD aw
+            INNER JOIN MOVIE_AWARD aw_next ON aw_next.id != AW.id
+            AND aw_next."year" > aw."year"
+            AND aw_next."year" != aw."year"+1
+            AND aw_next.WINNER IS TRUE
+            AND aw_next.PRODUCER = aw.PRODUCER
+            AND NOT EXISTS (
+            SELECT TRUE FROM MOVIE_AWARD AW_BETWEEN
+            WHERE AW_BETWEEN."year" > aw."year"
+            AND AW_BETWEEN."year" < aw_next."year"
+            AND AW_BETWEEN.WINNER IS TRUE
+            AND AW_BETWEEN.PRODUCER = AW.PRODUCER
+            LIMIT 1 )
+            WHERE aw.WINNER IS true ORDER BY "interval" DESC;
+            ]]>
+        </query>
+    </named-native-query>
+</entity-mappings>
