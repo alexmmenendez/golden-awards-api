@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class H2Configuration implements ApplicationRunner {
+public class DataCsvImporter implements ApplicationRunner {
 
     @Autowired
     private MovieAwardRepository repository;

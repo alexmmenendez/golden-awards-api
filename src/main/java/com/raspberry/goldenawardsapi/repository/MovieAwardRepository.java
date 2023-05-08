@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface MovieAwardRepository extends JpaRepository<MovieAward, Long> {
 
-    List<MovieAwardMetric> getMetricsForMaxInterval();
-
-    List<MovieAwardMetric> getMetricsForMinInterval();
+    List<MovieAwardMetric> getMetricsForInterval();
 
 }

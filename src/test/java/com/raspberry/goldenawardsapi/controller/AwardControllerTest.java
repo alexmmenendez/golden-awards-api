@@ -34,15 +34,7 @@ public class AwardControllerTest {
                 .andExpect(jsonPath("$.max[0].producer", is("Matthew Vaughn")))
                 .andExpect(jsonPath("$.max[0].interval", is(13)))
                 .andExpect(jsonPath("$.max[0].previousWin", is(2002)))
-                .andExpect(jsonPath("$.max[0].followingWin", is(2015)))
-                .andExpect(jsonPath("$.max[1].producer", is("Buzz Feitshans")))
-                .andExpect(jsonPath("$.max[1].interval", is(9)))
-                .andExpect(jsonPath("$.max[1].previousWin", is(1985)))
-                .andExpect(jsonPath("$.max[1].followingWin", is(1994)))
-                .andExpect(jsonPath("$.max[2].producer", is("Bo Derek")))
-                .andExpect(jsonPath("$.max[2].interval", is(6)))
-                .andExpect(jsonPath("$.max[2].previousWin", is(1984)))
-                .andExpect(jsonPath("$.max[2].followingWin", is(1990)));
+                .andExpect(jsonPath("$.max[0].followingWin", is(2015)));
     }
 
 }
