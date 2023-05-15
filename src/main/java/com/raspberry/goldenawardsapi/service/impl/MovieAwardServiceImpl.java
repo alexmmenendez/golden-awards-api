@@ -2,6 +2,7 @@ package com.raspberry.goldenawardsapi.service.impl;
 
 import com.raspberry.goldenawardsapi.controller.dto.MovieAwardResponse;
 import com.raspberry.goldenawardsapi.controller.dto.MovieAwardResultResponse;
+import com.raspberry.goldenawardsapi.exception.NoContentException;
 import com.raspberry.goldenawardsapi.repository.MovieAwardRepository;
 import com.raspberry.goldenawardsapi.service.MovieAwardService;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,14 @@ public class MovieAwardServiceImpl implements MovieAwardService {
     }
 
     @Override
-    public MovieAwardResultResponse getMetricsForInterval() {
+    public MovieAwardResultResponse getMetricsForIntervalAwardsWonFromProducers() {
 
-        final List<MovieAwardResponse> metricsForInterval = movieAwardRepository.getMetricsForInterval()
+        final List<MovieAwardResponse> metricsForInterval = movieAwardRepository.findMovieAwardProducerWinnerForInterval()
                 .stream().map(MovieAwardResponse::of).collect(Collectors.toList());
+
+        if (metricsForInterval.isEmpty()) {
+            throw new NoContentException();
+        }
 
         final int min = metricsForInterval.stream().min(Comparator.comparing(MovieAwardResponse::getInterval)).orElseThrow().getInterval();
 

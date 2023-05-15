@@ -12,4 +12,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/golden-awards-api.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/golden-awards-api.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=prod","-jar","/app/golden-awards-api.jar"]

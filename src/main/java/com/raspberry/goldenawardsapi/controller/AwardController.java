@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/raspberry/api")
+@RequestMapping("/movie-award")
 @RestController
 public class AwardController {
 
@@ -16,8 +16,8 @@ public class AwardController {
         this.movieAwardService = movieAwardService;
     }
 
-    @GetMapping
-    public MovieAwardResultResponse getResults() {
-        return movieAwardService.getMetricsForInterval();
+    @GetMapping("/metrics")
+    public MovieAwardResultResponse getMetrics() {
+        return movieAwardService.getMetricsForIntervalAwardsWonFromProducers();
     }
 }

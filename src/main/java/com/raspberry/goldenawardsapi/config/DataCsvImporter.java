@@ -4,27 +4,37 @@ import com.raspberry.goldenawardsapi.domain.MovieAward;
 import com.raspberry.goldenawardsapi.repository.MovieAwardRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+@Profile("prod")
 @Component
 public class DataCsvImporter implements ApplicationRunner {
 
-    @Autowired
-    private MovieAwardRepository repository;
+    private final MovieAwardRepository repository;
+
+    private static final String CSV_PATH = "movielist.csv";
+
+    public DataCsvImporter(MovieAwardRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        execute(CSV_PATH);
+    }
 
+    public void execute(final String csvPath) throws IOException {
         if (repository.count() > 0) {
             return;
         }
@@ -35,7 +45,7 @@ public class DataCsvImporter implements ApplicationRunner {
                 .setSkipHeaderRecord(true)
                 .build();
 
-        try (InputStream inputStream = new ClassPathResource("movielist.csv").getInputStream();
+        try (InputStream inputStream = new ClassPathResource(csvPath).getInputStream();
 
              final var reader = new BufferedReader(new InputStreamReader(inputStream));
 
